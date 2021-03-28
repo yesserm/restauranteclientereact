@@ -1,5 +1,7 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {BrowserRouter, Routes, Route } from 'react-router-dom';
+
+import firebase, { FirebaseContext } from './firebase';
 
 import Ordenes from './components/paginas/Ordenes';
 import Menu from './components/paginas/Menu';
@@ -8,18 +10,24 @@ import Sidebar from './components/ui/Sidebar';
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
+    <FirebaseContext.Provider
+      value={{
+        firebase
+      }}
+    >
       <div className="md:flex min-h-screen">
-        <Sidebar />
-        <div className="md:w-4/5 xl:w-4/5">
-          <Switch>
-            <Route exact path='/' component={Ordenes} />
-            <Route path='/menu' component={Menu} />
-            <Route path='/nuevo-platillo' component={NuevoPlatillo} />
-          </Switch>
+      <Sidebar />
+        <div className="md:w-4/5 xl:w-4/5 p-6">
+        <Routes>
+            <Route exact="true" path='/' element={<Ordenes />} />
+            <Route path='/menu' element={<Menu />} />
+            <Route path='/nuevo-platillo' element={<NuevoPlatillo />} />
+            </Routes>
         </div>
       </div>
-    </Router>
+    </FirebaseContext.Provider>
+    </BrowserRouter>
   );
 }
 
